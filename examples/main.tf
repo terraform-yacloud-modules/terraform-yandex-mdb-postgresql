@@ -36,11 +36,11 @@ module "postgresql_cluster" {
       disk_size          = 16
     }
     postgresql_config = {
-      max_connections                   = 395
-      enable_parallel_hash              = true
-      autovacuum_vacuum_scale_factor    = 0.34
-      default_transaction_isolation     = "TRANSACTION_ISOLATION_READ_COMMITTED"
-      shared_preload_libraries          = "SHARED_PRELOAD_LIBRARIES_AUTO_EXPLAIN,SHARED_PRELOAD_LIBRARIES_PG_HINT_PLAN"
+      max_connections                = 395
+      enable_parallel_hash           = true
+      autovacuum_vacuum_scale_factor = 0.34
+      default_transaction_isolation  = "TRANSACTION_ISOLATION_READ_COMMITTED"
+      shared_preload_libraries       = "SHARED_PRELOAD_LIBRARIES_AUTO_EXPLAIN,SHARED_PRELOAD_LIBRARIES_PG_HINT_PLAN"
     }
   }
 
