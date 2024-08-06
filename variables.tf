@@ -83,7 +83,7 @@ variable "maintenance_window" {
   type = object({
     type = string
     day  = optional(string, null)
-    hour = optional(string, null)
+    hour = optional(number, null)
   })
   default = {
     type = "ANYTIME"
