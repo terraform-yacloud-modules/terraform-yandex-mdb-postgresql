@@ -6,6 +6,7 @@ variable "name" {
 variable "environment" {
   description = "Deployment environment of the PostgreSQL cluster"
   type        = string
+  default     = "PRODUCTION" # "PRODUCTION" or "PRESTABLE"
 }
 
 variable "network_id" {
@@ -16,7 +17,7 @@ variable "network_id" {
 variable "description" {
   description = "Description of the PostgreSQL cluster"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "folder_id" {
@@ -31,6 +32,22 @@ variable "labels" {
   default     = {}
 }
 
+variable "postgresql_version" {
+  description = "Version of the PostgreSQL cluster"
+}
+
+variable "resource_preset_id" {
+  description = "The ID of the preset for computational resources available to a PostgreSQL host"
+}
+
+variable "disk_size" {
+  description = "Volume of the storage available to a PostgreSQL host, in gigabytes"
+}
+
+variable "disk_type_id" {
+  description = "Type of the storage of PostgreSQL hosts"
+}
+
 variable "security_group_ids" {
   description = "A set of IDs of security groups assigned to hosts of the cluster"
   type        = list(string)
@@ -43,17 +60,10 @@ variable "deletion_protection" {
   default     = false
 }
 
-variable "config" {
-  description = "Configuration of the PostgreSQL cluster"
-  type = object({
-    version = string
-    resources = object({
-      resource_preset_id = string
-      disk_type_id       = string
-      disk_size          = number
-    })
-    postgresql_config = map(string)
-  })
+variable "postgresql_config" {
+  description = "PostgreSQL cluster config"
+  type        = map(string)
+  default     = {}
 }
 
 variable "hosts" {
@@ -72,7 +82,10 @@ variable "maintenance_window" {
   description = "Maintenance policy of the PostgreSQL cluster"
   type = object({
     type = string
-    day  = string
-    hour = number
+    day  = optional(string, null)
+    hour = optional(number, null)
   })
+  default = {
+    type = "ANYTIME"
+  }
 }

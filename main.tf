@@ -9,13 +9,13 @@ resource "yandex_mdb_postgresql_cluster" "postgresql_cluster" {
   deletion_protection = var.deletion_protection
 
   config {
-    version = var.config.version
+    version = var.postgresql_version
     resources {
-      resource_preset_id = var.config.resources.resource_preset_id
-      disk_type_id       = var.config.resources.disk_type_id
-      disk_size          = var.config.resources.disk_size
+      resource_preset_id = var.resource_preset_id
+      disk_type_id       = var.disk_type_id
+      disk_size          = var.disk_size
     }
-    postgresql_config = var.config.postgresql_config
+    postgresql_config = var.postgresql_config
   }
 
   dynamic "host" {
