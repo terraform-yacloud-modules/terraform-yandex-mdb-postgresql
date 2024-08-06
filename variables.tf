@@ -81,9 +81,11 @@ variable "hosts" {
 variable "maintenance_window" {
   description = "Maintenance policy of the PostgreSQL cluster"
   type = object({
-    type = optional(string)
-    day  = optional(string)
-    hour = optional(number)
+    type = string
+    day  = optional(string, null)
+    hour = optional(string, null)
   })
-  default = {}
+  default = {
+    type = "ANYTIME"
+  }
 }
