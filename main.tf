@@ -16,6 +16,27 @@ resource "yandex_mdb_postgresql_cluster" "postgresql_cluster" {
       disk_size          = var.disk_size
     }
     postgresql_config = var.postgresql_config
+
+    dynamic "access" {
+      for_each = var.access != null ? [var.access] : []
+      content {
+        data_lens     = access.value.data_lens
+        web_sql       = access.value.web_sql
+        serverless    = access.value.serverless
+        data_transfer = access.value.data_transfer
+      }
+    }
+
+    dynamic "performance_diagnostics" {
+      for_each = var.performance_diagnostics != null ? [var.performance_diagnostics] : []
+      content {
+        enabled                      = performance_diagnostics.value.enabled
+        sessions_sampling_interval   = performance_diagnostics.value.sessions_sampling_interval
+        statements_sampling_interval = performance_diagnostics.value.statements_sampling_interval
+      }
+    }
+
+
   }
 
   dynamic "host" {
@@ -30,9 +51,12 @@ resource "yandex_mdb_postgresql_cluster" "postgresql_cluster" {
     }
   }
 
-  maintenance_window {
-    type = var.maintenance_window.type
-    day  = var.maintenance_window.day
-    hour = var.maintenance_window.hour
+  dynamic "maintenance_window" {
+    for_each = [var.maintenance_window]
+    content {
+      type = lookup(maintenance_window.value, "type", "ANYTIME")
+      day  = lookup(maintenance_window.value, "day", null)
+      hour = lookup(maintenance_window.value, "hour", null)
+    }
   }
 }

@@ -30,9 +30,10 @@ module "postgresql_cluster" {
 
   postgresql_version = "15"
 
-  resource_preset_id = "s2.micro"
-  disk_type_id       = "network-ssd"
-  disk_size          = 16
+  resource_preset_id  = "s2.micro"
+  disk_type_id        = "network-ssd"
+  disk_size           = 16
+  deletion_protection = false
 
   hosts = [
     {
@@ -40,33 +41,48 @@ module "postgresql_cluster" {
       subnet_id        = module.network.private_subnets_ids[0]
       assign_public_ip = true
       name             = "host-a"
+      priority         = 1
     },
     {
       zone             = "ru-central1-b"
       subnet_id        = module.network.private_subnets_ids[1]
       assign_public_ip = true
       name             = "host-b"
+      priority         = 2
     },
     {
       zone             = "ru-central1-d"
       subnet_id        = module.network.private_subnets_ids[2]
       assign_public_ip = true
       name             = "host-d"
+      priority         = 2
     },
   ]
 
   postgresql_config = {
-    max_connections                   = 395
-    enable_parallel_hash              = true
-    autovacuum_vacuum_scale_factor    = 0.34
-    default_transaction_isolation     = "TRANSACTION_ISOLATION_READ_COMMITTED"
-    shared_preload_libraries          = "SHARED_PRELOAD_LIBRARIES_AUTO_EXPLAIN,SHARED_PRELOAD_LIBRARIES_PG_HINT_PLAN"
+    max_connections                = 395
+    enable_parallel_hash           = true
+    autovacuum_vacuum_scale_factor = 0.34
+    default_transaction_isolation  = "TRANSACTION_ISOLATION_READ_COMMITTED"
+    shared_preload_libraries       = "SHARED_PRELOAD_LIBRARIES_AUTO_EXPLAIN,SHARED_PRELOAD_LIBRARIES_PG_HINT_PLAN"
   }
 
   maintenance_window = {
     type = "WEEKLY"
     day  = "SAT"
     hour = 12
+  }
+
+  access = {
+    data_lens     = true
+    web_sql       = true
+    serverless    = false
+    data_transfer = true
+  }
+  performance_diagnostics = {
+    enabled                      = true
+    sessions_sampling_interval   = 60
+    statements_sampling_interval = 60
   }
 
   depends_on = [module.network]
