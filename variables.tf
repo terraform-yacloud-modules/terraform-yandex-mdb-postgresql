@@ -34,18 +34,22 @@ variable "labels" {
 
 variable "postgresql_version" {
   description = "Version of the PostgreSQL cluster"
+  type        = string
 }
 
 variable "resource_preset_id" {
   description = "The ID of the preset for computational resources available to a PostgreSQL host"
+  type        = string
 }
 
 variable "disk_size" {
   description = "Volume of the storage available to a PostgreSQL host, in gigabytes"
+  type        = number
 }
 
 variable "disk_type_id" {
   description = "Type of the storage of PostgreSQL hosts"
+  type        = string
 }
 
 variable "security_group_ids" {
@@ -88,4 +92,25 @@ variable "maintenance_window" {
   default = {
     type = "ANYTIME"
   }
+}
+
+variable "access" {
+  description = "Access policy to the PostgreSQL cluster"
+  type = object({
+    data_lens     = optional(bool)
+    web_sql       = optional(bool)
+    serverless    = optional(bool)
+    data_transfer = optional(bool)
+  })
+  default = null
+}
+
+variable "performance_diagnostics" {
+  description = "Cluster performance diagnostics settings"
+  type = object({
+    enabled                      = optional(bool)
+    sessions_sampling_interval   = optional(number)
+    statements_sampling_interval = optional(number)
+  })
+  default = null
 }
