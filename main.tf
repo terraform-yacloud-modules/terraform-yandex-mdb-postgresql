@@ -36,7 +36,21 @@ resource "yandex_mdb_postgresql_cluster" "postgresql_cluster" {
       }
     }
 
+    dynamic "backup_window_start" {
+      for_each = var.backup_window_start != null ? [var.backup_window_start] : []
+      content {
+        hours   = backup_window_start.value.hours
+        minutes = backup_window_start.value.minutes
+      }
+    }
 
+    dynamic "pooler_config" {
+      for_each = var.pooler_config != null ? [var.pooler_config] : []
+      content {
+        pool_discard = pooler_config.value.pool_discard
+        pooling_mode = pooler_config.value.pooling_mode
+      }
+    }
   }
 
   dynamic "host" {
