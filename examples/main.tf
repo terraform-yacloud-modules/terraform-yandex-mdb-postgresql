@@ -84,6 +84,14 @@ module "postgresql_cluster" {
     sessions_sampling_interval   = 60
     statements_sampling_interval = 60
   }
+  backup_window_start = {
+    hours   = 2
+    minutes = 0
+  }
+  pooler_config       = {
+    pool_discard = false
+    pooling_mode = "SESSION"
+  }
 
   depends_on = [module.network]
 }

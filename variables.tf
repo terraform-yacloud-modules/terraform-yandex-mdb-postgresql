@@ -114,3 +114,21 @@ variable "performance_diagnostics" {
   })
   default = null
 }
+
+variable "backup_window_start" {
+  description = "Time to start the daily backup, in the UTC timezone"
+  type = object({
+    hours   = optional(number)
+    minutes = optional(number)
+  })
+  default = null
+}
+
+variable "pooler_config" {
+  description = "Configuration of the connection pooler"
+  type = object({
+    pool_discard = optional(bool)
+    pooling_mode = optional(string)
+  })
+  default = null
+}
