@@ -93,5 +93,30 @@ module "postgresql_cluster" {
     pooling_mode = "SESSION"
   }
 
+  database_name                = "my_database"
+  database_owner               = "my_user"
+  lc_collate                   = "en_US.UTF-8"
+  lc_type                      = "en_US.UTF-8"
+  template_db                  = null
+  database_deletion_protection = false
+
+  extensions = [
+    {
+      name    = "pg_trgm"
+      version = "1.5"
+    },
+    {
+      name    = "hstore"
+      version = "1.7"
+    }
+  ]
+
+  user_name                = "my_user"
+  user_password            = "my_password"
+  user_login               = true
+  user_conn_limit          = 50
+  user_settings            = {}
+  user_deletion_protection = false
+
   depends_on = [module.network]
 }
