@@ -132,3 +132,86 @@ variable "pooler_config" {
   })
   default = null
 }
+
+variable "database_name" {
+  description = "The name of the database"
+  type        = string
+}
+
+variable "database_owner" {
+  description = "Name of the user assigned as the owner of the database"
+  type        = string
+}
+
+variable "lc_collate" {
+  description = "POSIX locale for string sorting order"
+  type        = string
+  default     = null
+}
+
+variable "lc_type" {
+  description = "POSIX locale for character classification"
+  type        = string
+  default     = null
+}
+
+variable "template_db" {
+  description = "Name of the template database"
+  type        = string
+  default     = null
+}
+
+variable "extensions" {
+  description = "Set of database extensions"
+  type = list(object({
+    name    = string
+    version = optional(string)
+  }))
+  default = []
+}
+
+variable "database_deletion_protection" {
+  description = "Inhibits deletion of the database"
+  type        = bool
+  default     = null
+}
+
+variable "user_name" {
+  description = "The name of the user"
+  type        = string
+}
+
+variable "user_password" {
+  description = "The password of the user"
+  type        = string
+}
+
+variable "user_grants" {
+  description = "List of the user's grants"
+  type        = list(string)
+  default     = []
+}
+
+variable "user_login" {
+  description = "User's ability to login"
+  type        = bool
+  default     = true
+}
+
+variable "user_conn_limit" {
+  description = "The maximum number of connections per user"
+  type        = number
+  default     = 50
+}
+
+variable "user_settings" {
+  description = "Map of user settings"
+  type        = map(string)
+  default     = {}
+}
+
+variable "user_deletion_protection" {
+  description = "Inhibits deletion of the user"
+  type        = bool
+  default     = false
+}
