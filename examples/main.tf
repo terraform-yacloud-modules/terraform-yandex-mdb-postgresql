@@ -88,7 +88,7 @@ module "postgresql_cluster" {
     hours   = 2
     minutes = 0
   }
-  pooler_config       = {
+  pooler_config = {
     pool_discard = false
     pooling_mode = "SESSION"
   }
