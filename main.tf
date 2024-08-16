@@ -108,5 +108,3 @@ resource "yandex_mdb_postgresql_database" "postgresql_database" {
 
   depends_on = [yandex_mdb_postgresql_user.postgresql_user]
 }
-
-
