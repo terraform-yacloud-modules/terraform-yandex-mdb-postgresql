@@ -215,3 +215,35 @@ variable "user_deletion_protection" {
   type        = bool
   default     = false
 }
+
+variable "restore" {
+  description = "The cluster will be created from the specified backup"
+  type = object({
+    backup_id       = string
+    time            = optional(string)
+    time_inclusive  = optional(bool)
+  })
+  default = null
+}
+
+variable "disk_size_autoscaling" {
+  description = "Cluster disk size autoscaling settings"
+  type = object({
+    disk_size_limit           = number
+    planned_usage_threshold   = number
+    emergency_usage_threshold = number
+  })
+  default = null
+}
+
+variable "autofailover" {
+  description = "Configuration setting which enables/disables autofailover in cluster"
+  type        = bool
+  default     = true
+}
+
+variable "backup_retain_period_days" {
+  description = "The period in days during which backups are stored"
+  type        = number
+  default     = 7
+}

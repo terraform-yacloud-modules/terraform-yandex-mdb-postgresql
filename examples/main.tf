@@ -35,6 +35,12 @@ module "postgresql_cluster" {
   disk_size           = 16
   deletion_protection = false
 
+  disk_size_autoscaling = {
+    disk_size_limit           = 200
+    planned_usage_threshold   = 70
+    emergency_usage_threshold = 90
+  }
+
   hosts = [
     {
       zone             = "ru-central1-a"
@@ -117,6 +123,9 @@ module "postgresql_cluster" {
   user_conn_limit          = 50
   user_settings            = {}
   user_deletion_protection = false
+
+  autofailover = true
+  backup_retain_period_days = 14
 
   depends_on = [module.network]
 }
