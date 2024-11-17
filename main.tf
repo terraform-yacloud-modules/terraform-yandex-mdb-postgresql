@@ -8,6 +8,15 @@ resource "yandex_mdb_postgresql_cluster" "postgresql_cluster" {
   security_group_ids  = var.security_group_ids
   deletion_protection = var.deletion_protection
 
+  dynamic "restore" {
+    for_each = var.restore != null ? [var.restore] : []
+    content {
+      backup_id       = restore.value.backup_id
+      time            = restore.value.time
+      time_inclusive  = restore.value.time_inclusive
+    }
+  }
+
   config {
     version = var.postgresql_version
     resources {
@@ -51,6 +60,18 @@ resource "yandex_mdb_postgresql_cluster" "postgresql_cluster" {
         pooling_mode = pooler_config.value.pooling_mode
       }
     }
+
+    dynamic "disk_size_autoscaling" {
+      for_each = var.disk_size_autoscaling != null ? [var.disk_size_autoscaling] : []
+      content {
+        disk_size_limit           = disk_size_autoscaling.value.disk_size_limit
+        planned_usage_threshold   = disk_size_autoscaling.value.planned_usage_threshold
+        emergency_usage_threshold = disk_size_autoscaling.value.emergency_usage_threshold
+      }
+    }
+
+    autofailover = var.autofailover
+    backup_retain_period_days = var.backup_retain_period_days
   }
 
   dynamic "host" {
