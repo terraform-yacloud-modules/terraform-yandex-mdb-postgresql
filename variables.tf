@@ -205,8 +205,8 @@ variable "owners" {
     deletion_protection = optional(bool, false)
   }))
   validation {
-    condition     = !contains([for user in var.owners : user.name], "admin")
-    error_message = "User name 'admin' is not allowed"
+    condition     = !alltrue([for item in [for user in var.owners : user.name] : contains(["admin", "repl", "monitor", "postgres", "mdb_admin", "mdb_monitor", "mdb_replication"], item)])
+    error_message = "The user name field must not contain any of the following disallowed usernames: admin, repl, monitor, postgres, mdb_admin, mdb_monitor, mdb_replication."
   }
 }
 
@@ -214,12 +214,13 @@ variable "users" {
   description = <<EOF
     List of additional PostgreSQL users with own permissions. They are created at the end.
 
-    Values:
+    Required values:
       - name                - (Required) The name of the user.
       - password            - (Optional) The user's password. If it's omitted a random password will be generated.
       - grants              - (Optional) List of the user's grants.
       - login               - (Optional) The user's ability to login.
       - conn_limit          - (Optional) The maximum number of connections per user.
+      - permissions         - (Optional) List of databases names for an access
       - settings            - (Optional) A user setting options.
       - deletion_protection - (Optional) A deletion protection.
   EOF
@@ -227,14 +228,17 @@ variable "users" {
     name                = string
     password            = optional(string, null)
     grants              = optional(list(string), [])
-    login               = optional(bool, true)
-    conn_limit          = optional(number, 50)
+    login               = optional(bool, null)
+    conn_limit          = optional(number, null)
+    permissions         = optional(list(string), [])
     settings            = optional(map(any), {})
-    deletion_protection = optional(bool, false)
+    deletion_protection = optional(bool, null)
   }))
+  default = []
+
   validation {
-    condition     = !contains([for user in var.users : user.name], "admin")
-    error_message = "User name 'admin' is not allowed"
+    condition     = !alltrue([for item in [for user in var.users : user.name] : contains(["admin", "repl", "monitor", "postgres", "mdb_admin", "mdb_monitor", "mdb_replication"], item)])
+    error_message = "The user name field must not contain any of the following disallowed usernames: admin, repl, monitor, postgres, mdb_admin, mdb_monitor, mdb_replication."
   }
 }
 
@@ -263,8 +267,9 @@ variable "databases" {
     deletion_protection = optional(bool, null)
     extensions          = optional(list(string), [])
   }))
+
   validation {
-    condition     = !contains([for database in var.databases : database.owner], "admin")
-    error_message = "User name 'admin' is not allowed"
+    condition     = !alltrue([for item in [for database in var.databases : database.owner] : contains(["admin", "repl", "monitor", "postgres", "mdb_admin", "mdb_monitor", "mdb_replication"], item)])
+    error_message = "The owner field must not contain any of the following disallowed usernames: admin, repl, monitor, postgres, mdb_admin, mdb_monitor, mdb_replication."
   }
 }
