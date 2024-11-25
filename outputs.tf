@@ -1,6 +1,21 @@
-output "id" {
-  description = "ID of the PostgreSQL cluster"
+output "cluster_id" {
+  description = "PostgreSQL cluster ID"
   value       = yandex_mdb_postgresql_cluster.postgresql_cluster.id
+}
+
+output "cluster_name" {
+  description = "PostgreSQL cluster name"
+  value       = yandex_mdb_postgresql_cluster.postgresql_cluster.name
+}
+
+output "cluster_host_names_list" {
+  description = "PostgreSQL cluster host name"
+  value       = [yandex_mdb_postgresql_cluster.postgresql_cluster.host[*].name]
+}
+
+output "cluster_fqdns_list" {
+  description = "PostgreSQL cluster nodes FQDN list"
+  value       = [yandex_mdb_postgresql_cluster.postgresql_cluster.host[*].fqdn]
 }
 
 output "name" {
@@ -56,4 +71,31 @@ output "hosts" {
 output "maintenance_window" {
   description = "Maintenance policy of the PostgreSQL cluster"
   value       = yandex_mdb_postgresql_cluster.postgresql_cluster.maintenance_window
+}
+
+output "owners_data" {
+  description = "List of owners with passwords"
+  sensitive   = true
+  value = [
+    for u in yandex_mdb_postgresql_user.owner : {
+      user     = u.name
+      password = u.password
+    }
+  ]
+}
+
+output "users_data" {
+  description = "List of users with passwords"
+  sensitive   = true
+  value = [
+    for u in yandex_mdb_postgresql_user.user : {
+      user     = u.name
+      password = u.password
+    }
+  ]
+}
+
+output "databases" {
+  description = "List of databases names"
+  value       = [for db in var.databases : db.name]
 }

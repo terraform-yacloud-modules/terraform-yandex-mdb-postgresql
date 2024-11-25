@@ -11,9 +11,9 @@ resource "yandex_mdb_postgresql_cluster" "postgresql_cluster" {
   dynamic "restore" {
     for_each = var.restore != null ? [var.restore] : []
     content {
-      backup_id       = restore.value.backup_id
-      time            = restore.value.time
-      time_inclusive  = restore.value.time_inclusive
+      backup_id      = restore.value.backup_id
+      time           = restore.value.time
+      time_inclusive = restore.value.time_inclusive
     }
   }
 
@@ -70,7 +70,7 @@ resource "yandex_mdb_postgresql_cluster" "postgresql_cluster" {
       }
     }
 
-    autofailover = var.autofailover
+    autofailover              = var.autofailover
     backup_retain_period_days = var.backup_retain_period_days
   }
 
@@ -94,38 +94,4 @@ resource "yandex_mdb_postgresql_cluster" "postgresql_cluster" {
       hour = lookup(maintenance_window.value, "hour", null)
     }
   }
-}
-
-resource "yandex_mdb_postgresql_user" "postgresql_user" {
-  cluster_id          = yandex_mdb_postgresql_cluster.postgresql_cluster.id
-  name                = var.user_name
-  password            = var.user_password
-  grants              = var.user_grants
-  login               = var.user_login
-  conn_limit          = var.user_conn_limit
-  settings            = var.user_settings
-  deletion_protection = var.user_deletion_protection
-
-  depends_on = [yandex_mdb_postgresql_cluster.postgresql_cluster]
-}
-
-resource "yandex_mdb_postgresql_database" "postgresql_database" {
-  cluster_id  = yandex_mdb_postgresql_cluster.postgresql_cluster.id
-  name        = var.database_name
-  owner       = var.database_owner
-  lc_collate  = var.lc_collate
-  lc_type     = var.lc_type
-  template_db = var.template_db
-
-  dynamic "extension" {
-    for_each = var.extensions
-    content {
-      name    = extension.value.name
-      version = extension.value.version
-    }
-  }
-
-  deletion_protection = var.database_deletion_protection
-
-  depends_on = [yandex_mdb_postgresql_user.postgresql_user]
 }

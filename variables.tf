@@ -4,9 +4,13 @@ variable "name" {
 }
 
 variable "environment" {
-  description = "Deployment environment of the PostgreSQL cluster"
+  description = "Environment type: PRODUCTION or PRESTABLE"
   type        = string
-  default     = "PRODUCTION" # "PRODUCTION" or "PRESTABLE"
+  default     = "PRODUCTION"
+  validation {
+    condition     = contains(["PRODUCTION", "PRESTABLE"], var.environment)
+    error_message = "Release channel should be PRODUCTION (stable feature set) or PRESTABLE (early bird feature access)."
+  }
 }
 
 variable "network_id" {
@@ -133,95 +137,12 @@ variable "pooler_config" {
   default = null
 }
 
-variable "database_name" {
-  description = "The name of the database"
-  type        = string
-}
-
-variable "database_owner" {
-  description = "Name of the user assigned as the owner of the database"
-  type        = string
-}
-
-variable "lc_collate" {
-  description = "POSIX locale for string sorting order"
-  type        = string
-  default     = null
-}
-
-variable "lc_type" {
-  description = "POSIX locale for character classification"
-  type        = string
-  default     = null
-}
-
-variable "template_db" {
-  description = "Name of the template database"
-  type        = string
-  default     = null
-}
-
-variable "extensions" {
-  description = "Set of database extensions"
-  type = list(object({
-    name    = string
-    version = optional(string)
-  }))
-  default = []
-}
-
-variable "database_deletion_protection" {
-  description = "Inhibits deletion of the database"
-  type        = bool
-  default     = null
-}
-
-variable "user_name" {
-  description = "The name of the user"
-  type        = string
-}
-
-variable "user_password" {
-  description = "The password of the user"
-  type        = string
-}
-
-variable "user_grants" {
-  description = "List of the user's grants"
-  type        = list(string)
-  default     = []
-}
-
-variable "user_login" {
-  description = "User's ability to login"
-  type        = bool
-  default     = true
-}
-
-variable "user_conn_limit" {
-  description = "The maximum number of connections per user"
-  type        = number
-  default     = 50
-}
-
-variable "user_settings" {
-  description = "Map of user settings"
-  type        = map(string)
-  default     = {}
-}
-
-variable "user_deletion_protection" {
-  description = "Inhibits deletion of the user"
-  type        = bool
-  default     = false
-}
-
 variable "restore" {
   description = "The cluster will be created from the specified backup"
   type = object({
-    backup_id       = string
-    time            = optional(string)
-    time_inclusive  = optional(bool)
+    backup_id      = string
+    time           = optional(string)
+    time_inclusive = optional(bool)
   })
   default = null
 }
@@ -246,4 +167,104 @@ variable "backup_retain_period_days" {
   description = "The period in days during which backups are stored"
   type        = number
   default     = 7
+}
+
+#
+# users
+#
+variable "default_user_settings" {
+  description = <<EOF
+    The default user settings. These settings are overridden by the user's settings.
+    Full description https://cloud.yandex.com/en-ru/docs/managed-postgresql/api-ref/grpc/user_service#UserSettings1
+  EOF
+  type        = map(any)
+  default     = {}
+}
+
+variable "owners" {
+  description = <<EOF
+    List of special PostgreSQL DB users - database owners. These users are created first and assigned to database as owner.
+    There is also an additional list for other users with own permissions.
+
+    Values:
+      - name                - (Required) The name of the user.
+      - password            - (Optional) The user's password. If it's omitted a random password will be generated.
+      - grants              - (Optional) List of the user's grants.
+      - login               - (Optional) The user's ability to login.
+      - conn_limit          - (Optional) The maximum number of connections per user.
+      - settings            - (Optional) A user setting options.
+      - deletion_protection - (Optional) A deletion protection.
+  EOF
+  type = list(object({
+    name                = string
+    password            = optional(string, null)
+    grants              = optional(list(string), [])
+    login               = optional(bool, true)
+    conn_limit          = optional(number, 50)
+    settings            = optional(map(any), {})
+    deletion_protection = optional(bool, false)
+  }))
+  validation {
+    condition     = !contains([for user in var.owners : user.name], "admin")
+    error_message = "User name 'admin' is not allowed"
+  }
+}
+
+variable "users" {
+  description = <<EOF
+    List of additional PostgreSQL users with own permissions. They are created at the end.
+
+    Values:
+      - name                - (Required) The name of the user.
+      - password            - (Optional) The user's password. If it's omitted a random password will be generated.
+      - grants              - (Optional) List of the user's grants.
+      - login               - (Optional) The user's ability to login.
+      - conn_limit          - (Optional) The maximum number of connections per user.
+      - settings            - (Optional) A user setting options.
+      - deletion_protection - (Optional) A deletion protection.
+  EOF
+  type = list(object({
+    name                = string
+    password            = optional(string, null)
+    grants              = optional(list(string), [])
+    login               = optional(bool, true)
+    conn_limit          = optional(number, 50)
+    settings            = optional(map(any), {})
+    deletion_protection = optional(bool, false)
+  }))
+  validation {
+    condition     = !contains([for user in var.users : user.name], "admin")
+    error_message = "User name 'admin' is not allowed"
+  }
+}
+
+#
+# databases
+#
+variable "databases" {
+  description = <<EOF
+    List of PostgreSQL databases.
+
+    Required values:
+      - name                - (Required) The name of the database.
+      - owner               - (Required) Name of the user assigned as the owner of the database. Forbidden to change in an existing database.
+      - extension           - (Optional) Set of database extensions.
+      - lc_collate          - (Optional) POSIX locale for string sorting order. Forbidden to change in an existing database.
+      - lc_type             - (Optional) POSIX locale for character classification. Forbidden to change in an existing database.
+      - template_db         - (Optional) Name of the template database.
+      - deletion_protection - (Optional) A deletion protection.
+  EOF
+  type = list(object({
+    name                = string
+    owner               = string
+    lc_collate          = optional(string, null)
+    lc_type             = optional(string, null)
+    template_db         = optional(string, null)
+    deletion_protection = optional(bool, null)
+    extensions          = optional(list(string), [])
+  }))
+  validation {
+    condition     = !contains([for database in var.databases : database.owner], "admin")
+    error_message = "User name 'admin' is not allowed"
+  }
 }
