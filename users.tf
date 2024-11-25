@@ -12,7 +12,7 @@ resource "random_password" "password" {
 resource "yandex_mdb_postgresql_user" "owner" {
   for_each = length(var.owners) > 0 ? { for owner in var.owners : owner.name => owner } : {}
 
-  cluster_id          = yandex_mdb_postgresql_cluster.this.id
+  cluster_id          = yandex_mdb_postgresql_cluster.postgresql_cluster.id
   name                = each.value.name
   password            = each.value.password == null ? random_password.password[each.value.name].result : each.value.password
   grants              = each.value.grants
@@ -25,7 +25,7 @@ resource "yandex_mdb_postgresql_user" "owner" {
 resource "yandex_mdb_postgresql_user" "user" {
   for_each = length(var.users) > 0 ? { for user in var.users : user.name => user } : {}
 
-  cluster_id          = yandex_mdb_postgresql_cluster.this.id
+  cluster_id          = yandex_mdb_postgresql_cluster.postgresql_cluster.id
   name                = each.value.name
   password            = each.value.password == null ? random_password.password[each.value.name].result : each.value.password
   grants              = each.value.grants

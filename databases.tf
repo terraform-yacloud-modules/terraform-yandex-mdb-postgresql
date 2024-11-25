@@ -1,7 +1,7 @@
 resource "yandex_mdb_postgresql_database" "database" {
   for_each = length(var.databases) > 0 ? { for db in var.databases : db.name => db } : {}
 
-  cluster_id          = yandex_mdb_postgresql_cluster.this.id
+  cluster_id          = yandex_mdb_postgresql_cluster.postgresql_cluster.id
   name                = each.value.name
   owner               = yandex_mdb_postgresql_user.owner[each.value.owner].name
   lc_collate          = each.value.lc_collate

@@ -245,7 +245,7 @@ variable "databases" {
   description = <<EOF
     List of PostgreSQL databases.
 
-    Required values:
+    Values:
       - name                - (Required) The name of the database.
       - owner               - (Required) Name of the user assigned as the owner of the database. Forbidden to change in an existing database.
       - extension           - (Optional) Set of database extensions.
