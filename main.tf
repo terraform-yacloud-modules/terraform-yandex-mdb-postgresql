@@ -1,4 +1,4 @@
-resource "yandex_mdb_postgresql_cluster" "postgresql_cluster" {
+resource "yandex_mdb_postgresql_cluster" "main" {
   name                = var.name
   environment         = var.environment
   network_id          = var.network_id
