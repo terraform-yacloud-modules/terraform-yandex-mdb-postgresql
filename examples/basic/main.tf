@@ -20,7 +20,7 @@ module "network" {
 
 ########
 module "postgresql_cluster" {
-  source = "../"
+  source = "../.."
 
   name        = "my-postgresql-cluster"
   environment = "PRESTABLE"
