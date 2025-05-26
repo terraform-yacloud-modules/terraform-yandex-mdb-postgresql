@@ -1,6 +1,6 @@
 output "id" {
   description = "ID of the PostgreSQL cluster"
-  value       = module.postgresql_cluster.id
+  value       = module.postgresql_cluster.cluster_id
 }
 
 output "name" {
