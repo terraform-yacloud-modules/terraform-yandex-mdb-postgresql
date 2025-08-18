@@ -20,6 +20,8 @@ resource "yandex_mdb_postgresql_user" "owner" {
   conn_limit          = each.value.conn_limit
   deletion_protection = each.value.deletion_protection
   settings            = merge(var.default_user_settings, each.value.settings)
+
+  depends_on = [yandex_mdb_postgresql_cluster.main]
 }
 
 resource "yandex_mdb_postgresql_user" "user" {
@@ -40,4 +42,6 @@ resource "yandex_mdb_postgresql_user" "user" {
       database_name = yandex_mdb_postgresql_database.database[permission.value].name
     }
   }
+
+  depends_on = [yandex_mdb_postgresql_cluster.main]
 }
