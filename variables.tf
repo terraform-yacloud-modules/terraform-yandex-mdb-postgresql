@@ -205,7 +205,7 @@ variable "owners" {
     deletion_protection = optional(bool, false)
   }))
   validation {
-    condition     =  (length(var.owners) == 0 || var.owners == null) ? true : !alltrue([for item in [for user in var.owners : user.name] : contains(["admin", "repl", "monitor", "postgres", "mdb_admin", "mdb_monitor", "mdb_replication"], item)])
+    condition     = (length(var.owners) == 0 || var.owners == null) ? true : !alltrue([for item in [for user in var.owners : user.name] : contains(["admin", "repl", "monitor", "postgres", "mdb_admin", "mdb_monitor", "mdb_replication"], item)])
     error_message = "The user name field must not contain any of the following disallowed usernames: admin, repl, monitor, postgres, mdb_admin, mdb_monitor, mdb_replication"
   }
 }
