@@ -10,19 +10,20 @@ to give users references for how to use the module(s) as well as testing/validat
 module. If contributing to the project, please be sure to make any appropriate updates to the relevant examples to allow
 maintainers to test your changes and to keep the examples up to date for users. Thank you!
 
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3 |
+| <a name="requirement_random"></a> [random](#requirement\_random) | >= 3.0.0 |
 | <a name="requirement_yandex"></a> [yandex](#requirement\_yandex) | >= 0.72.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_random"></a> [random](#provider\_random) | n/a |
+| <a name="provider_random"></a> [random](#provider\_random) | >= 3.0.0 |
 | <a name="provider_yandex"></a> [yandex](#provider\_yandex) | >= 0.72.0 |
 
 ## Modules
@@ -93,7 +94,7 @@ No modules.
 | <a name="output_owners_data"></a> [owners\_data](#output\_owners\_data) | List of owners with passwords |
 | <a name="output_security_group_ids"></a> [security\_group\_ids](#output\_security\_group\_ids) | A set of IDs of security groups assigned to hosts of the cluster |
 | <a name="output_users_data"></a> [users\_data](#output\_users\_data) | List of users with passwords |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
 
 ## License
 
