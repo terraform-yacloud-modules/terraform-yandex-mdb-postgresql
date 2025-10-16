@@ -273,3 +273,13 @@ variable "databases" {
     error_message = "The owner field must not contain any of the following disallowed usernames: admin, repl, monitor, postgres, mdb_admin, mdb_monitor, mdb_replication"
   }
 }
+
+variable "timeouts" {
+  description = "Timeout settings for cluster operations"
+  type = object({
+    create = optional(string)
+    update = optional(string)
+    delete = optional(string)
+  })
+  default = null
+}

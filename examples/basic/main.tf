@@ -137,4 +137,11 @@ module "postgresql_cluster" {
   backup_retain_period_days = 14
 
   depends_on = [module.network]
+
+  timeouts = {
+    create = "30m"
+    update = "30m"
+    delete = "30m"
+  }
+
 }

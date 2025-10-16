@@ -20,6 +20,16 @@ resource "yandex_mdb_postgresql_user" "owner" {
   conn_limit          = each.value.conn_limit
   deletion_protection = each.value.deletion_protection
   settings            = merge(var.default_user_settings, each.value.settings)
+
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : [var.timeouts]
+    content {
+      create = try(timeouts.value.create, null)
+      update = try(timeouts.value.update, null)
+      delete = try(timeouts.value.delete, null)
+    }
+  }
+
 }
 
 resource "yandex_mdb_postgresql_user" "user" {
@@ -40,4 +50,14 @@ resource "yandex_mdb_postgresql_user" "user" {
       database_name = yandex_mdb_postgresql_database.database[permission.value].name
     }
   }
+
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : [var.timeouts]
+    content {
+      create = try(timeouts.value.create, null)
+      update = try(timeouts.value.update, null)
+      delete = try(timeouts.value.delete, null)
+    }
+  }
+
 }
