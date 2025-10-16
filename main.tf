@@ -94,4 +94,14 @@ resource "yandex_mdb_postgresql_cluster" "main" {
       hour = lookup(maintenance_window.value, "hour", null)
     }
   }
+
+  dynamic "timeouts" {
+    for_each = var.timeouts == null ? [] : [var.timeouts]
+    content {
+      create = try(timeouts.value.create, null)
+      update = try(timeouts.value.update, null)
+      delete = try(timeouts.value.delete, null)
+    }
+  }
+
 }
