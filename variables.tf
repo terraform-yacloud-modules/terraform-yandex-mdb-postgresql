@@ -62,6 +62,12 @@ variable "security_group_ids" {
   default     = []
 }
 
+variable "host_group_ids" {
+  description = "A list of IDs of the host groups to place PostgreSQL hosts of the cluster on"
+  type        = list(string)
+  default     = []
+}
+
 variable "deletion_protection" {
   description = "Inhibits deletion of the cluster"
   type        = bool
@@ -69,7 +75,42 @@ variable "deletion_protection" {
 }
 
 variable "postgresql_config" {
-  description = "PostgreSQL cluster config"
+  description = <<EOF
+    PostgreSQL cluster configuration parameters. Available options include:
+    
+    Connection and Session Settings:
+    - client_min_messages: Sets the message levels that are sent to the client (LOG_LEVEL_UNSPECIFIED, LOG_LEVEL_DEBUG5 to LOG_LEVEL_PANIC)
+    - default_transaction_isolation: Sets the transaction isolation level (TRANSACTION_ISOLATION_UNSPECIFIED, READ_UNCOMMITTED, READ_COMMITTED, REPEATABLE_READ, SERIALIZABLE)
+    - default_transaction_read_only: Sets default transaction read-only mode
+    - idle_in_transaction_session_timeout: Sets the maximum allowed duration of any idling transaction
+    - lock_timeout: Sets the maximum time to wait for a lock
+    
+    Logging Settings:
+    - log_connections: Logs each successful connection
+    - log_disconnections: Logs end of a session, including duration
+    - log_duration: Logs the duration of each completed SQL statement
+    - log_min_duration_statement: Logs statements that run for at least the specified number of milliseconds
+    - log_statement: Controls which SQL statements are logged (LOG_STATEMENT_UNSPECIFIED, NONE, DDL, MOD, ALL)
+    - log_min_messages: Controls which message levels are written to the server log
+    - log_error_verbosity: Controls the amount of detail written in error messages
+    
+    Performance Settings:
+    - work_mem: Sets the maximum memory to be used for query workspaces
+    - effective_cache_size: Sets the planner's assumption about the size of the disk cache
+    - effective_io_concurrency: Sets the number of concurrent disk I/O operations
+    - random_page_cost: Sets the planner's estimate of the cost of a non-sequentially fetched disk page
+    - default_statistics_target: Sets the default statistics target
+    
+    WAL Settings:
+    - wal_level: Sets the level of information written to the WAL (WAL_LEVEL_UNSPECIFIED, WAL_LEVEL_REPLICA, WAL_LEVEL_LOGICAL)
+    - wal_keep_size: Sets the size of WAL files to keep
+    
+    Other Settings:
+    - jit: Enables or disables Just-In-Time compilation
+    - constraint_exclusion: Enables the planner to use constraints to optimize queries
+    - cursor_tuple_fraction: Sets the planner's estimate of the fraction of a cursor's rows that will be retrieved
+    - deadlock_timeout: Sets the time to wait on a lock before checking for deadlock
+  EOF
   type        = map(string)
   default     = {}
 }
