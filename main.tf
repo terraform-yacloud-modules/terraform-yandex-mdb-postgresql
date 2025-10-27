@@ -6,6 +6,7 @@ resource "yandex_mdb_postgresql_cluster" "main" {
   folder_id           = var.folder_id
   labels              = var.labels
   security_group_ids  = var.security_group_ids
+  host_group_ids      = var.host_group_ids
   deletion_protection = var.deletion_protection
 
   dynamic "restore" {
