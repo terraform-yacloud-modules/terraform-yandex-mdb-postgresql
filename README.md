@@ -52,6 +52,7 @@ No modules.
 | <a name="input_default_user_settings"></a> [default\_user\_settings](#input\_default\_user\_settings) | The default user settings. These settings are overridden by the user's settings.<br/>    Full description https://cloud.yandex.com/en-ru/docs/managed-postgresql/api-ref/grpc/user_service#UserSettings1 | `map(any)` | `{}` | no |
 | <a name="input_deletion_protection"></a> [deletion\_protection](#input\_deletion\_protection) | Inhibits deletion of the cluster | `bool` | `false` | no |
 | <a name="input_description"></a> [description](#input\_description) | Description of the PostgreSQL cluster | `string` | `null` | no |
+| <a name="input_disk_encryption_key_id"></a> [disk\_encryption\_key\_id](#input\_disk\_encryption\_key\_id) | ID of the KMS key for cluster disk encryption. Restoring without an encryption key will disable encryption if any exists. | `string` | `null` | no |
 | <a name="input_disk_size"></a> [disk\_size](#input\_disk\_size) | Volume of the storage available to a PostgreSQL host, in gigabytes | `number` | n/a | yes |
 | <a name="input_disk_size_autoscaling"></a> [disk\_size\_autoscaling](#input\_disk\_size\_autoscaling) | Cluster disk size autoscaling settings | <pre>object({<br/>    disk_size_limit           = number<br/>    planned_usage_threshold   = number<br/>    emergency_usage_threshold = number<br/>  })</pre> | `null` | no |
 | <a name="input_disk_type_id"></a> [disk\_type\_id](#input\_disk\_type\_id) | Type of the storage of PostgreSQL hosts | `string` | n/a | yes |

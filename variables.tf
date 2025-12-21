@@ -204,6 +204,12 @@ variable "autofailover" {
   default     = true
 }
 
+variable "disk_encryption_key_id" {
+  description = "ID of the KMS key for cluster disk encryption. Restoring without an encryption key will disable encryption if any exists."
+  type        = string
+  default     = null
+}
+
 variable "backup_retain_period_days" {
   description = "The period in days during which backups are stored"
   type        = number

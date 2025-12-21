@@ -22,11 +22,12 @@ module "network" {
 module "postgresql_cluster" {
   source = "../.."
 
-  name        = "my-postgresql-cluster"
-  environment = "PRESTABLE"
-  network_id  = module.network.vpc_id
-  description = "My PostgreSQL cluster description"
-  folder_id   = data.yandex_client_config.client.folder_id
+  name                   = "my-postgresql-cluster"
+  environment            = "PRESTABLE"
+  network_id             = module.network.vpc_id
+  description            = "My PostgreSQL cluster description"
+  folder_id              = data.yandex_client_config.client.folder_id
+  disk_encryption_key_id = null
 
   postgresql_version = "15"
 
