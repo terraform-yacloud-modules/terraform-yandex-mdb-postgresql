@@ -1,13 +1,14 @@
 resource "yandex_mdb_postgresql_cluster" "main" {
-  name                = var.name
-  environment         = var.environment
-  network_id          = var.network_id
-  description         = var.description
-  folder_id           = var.folder_id
-  labels              = var.labels
-  security_group_ids  = var.security_group_ids
-  host_group_ids      = var.host_group_ids
-  deletion_protection = var.deletion_protection
+  name                   = var.name
+  environment            = var.environment
+  network_id             = var.network_id
+  description            = var.description
+  folder_id              = var.folder_id
+  disk_encryption_key_id = var.disk_encryption_key_id
+  labels                 = var.labels
+  security_group_ids     = var.security_group_ids
+  host_group_ids         = var.host_group_ids
+  deletion_protection    = var.deletion_protection
 
   dynamic "restore" {
     for_each = var.restore != null ? [var.restore] : []
