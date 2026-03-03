@@ -1,3 +1,7 @@
+## v2.32.0 - 2026-03-03
+### Bug Fixes
+- 29b8921 fix(autofailover): removed autofailover ([#61](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/61))
+
 ## v2.31.0 - 2026-03-02
 ### Chores
 - a607a2b chore(deps): bump hashicorp/setup-terraform from 3 to 4 ([#60](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/60))
