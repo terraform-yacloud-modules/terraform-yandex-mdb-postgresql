@@ -134,7 +134,6 @@ module "postgresql_cluster" {
     }
   ]
 
-  autofailover              = true
   backup_retain_period_days = 14
 
   depends_on = [module.network]

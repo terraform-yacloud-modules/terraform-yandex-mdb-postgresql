@@ -72,7 +72,6 @@ resource "yandex_mdb_postgresql_cluster" "main" {
       }
     }
 
-    autofailover              = var.autofailover
     backup_retain_period_days = var.backup_retain_period_days
   }
 
