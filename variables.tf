@@ -198,12 +198,6 @@ variable "disk_size_autoscaling" {
   default = null
 }
 
-variable "autofailover" {
-  description = "Configuration setting which enables/disables autofailover in cluster"
-  type        = bool
-  default     = true
-}
-
 variable "disk_encryption_key_id" {
   description = "ID of the KMS key for cluster disk encryption. Restoring without an encryption key will disable encryption if any exists."
   type        = string
