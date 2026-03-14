@@ -293,7 +293,7 @@ variable "databases" {
     Values:
       - name                - (Required) The name of the database.
       - owner               - (Required) Name of the user assigned as the owner of the database. Forbidden to change in an existing database.
-      - extension           - (Optional) Set of database extensions.
+      - extensions          - (Optional) List of database extension names.
       - lc_collate          - (Optional) POSIX locale for string sorting order. Forbidden to change in an existing database.
       - lc_type             - (Optional) POSIX locale for character classification. Forbidden to change in an existing database.
       - template_db         - (Optional) Name of the template database.
