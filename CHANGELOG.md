@@ -1,3 +1,7 @@
+## v2.33.0 - 2026-03-15
+### Miscellaneous
+- b9a1e88 variable name fix, provider version, timeouts handling, and docs ([#62](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/62))
+
 ## v2.32.0 - 2026-03-03
 ### Bug Fixes
 - 29b8921 fix(autofailover): removed autofailover ([#61](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/61))
