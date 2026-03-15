@@ -2,6 +2,14 @@
 
 Terraform module which creates Yandex Cloud PostgreSQL resources.
 
+## Documentation
+
+Resource reference (Yandex Cloud):
+
+- [yandex_mdb_postgresql_cluster](https://yandex.cloud/ru/docs/terraform/resources/mdb_postgresql_cluster)
+- [yandex_mdb_postgresql_database](https://yandex.cloud/ru/docs/terraform/resources/mdb_postgresql_database)
+- [yandex_mdb_postgresql_user](https://yandex.cloud/ru/docs/terraform/resources/mdb_postgresql_user)
+
 ## Examples
 
 Examples codified under
