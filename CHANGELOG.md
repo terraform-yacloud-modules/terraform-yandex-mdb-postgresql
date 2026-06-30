@@ -1,3 +1,7 @@
+## v2.37.0 - 2026-06-30
+### Chores
+- 3178562 chore(deps): bump actions/cache from 5.0.5 to 6.1.0 ([#67](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/67))
+
 ## v2.36.0 - 2026-06-22
 ### Chores
 - 71ec6b3 chore(deps): bump actions/checkout from 6 to 7 ([#65](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/65))
