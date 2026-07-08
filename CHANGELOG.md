@@ -1,3 +1,7 @@
+## v2.38.0 - 2026-07-08
+### Features
+- 0b680df feat: Add password-policy to envs ([#68](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/68))
+
 ## v2.37.0 - 2026-06-30
 ### Chores
 - 3178562 chore(deps): bump actions/cache from 5.0.5 to 6.1.0 ([#67](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/67))
