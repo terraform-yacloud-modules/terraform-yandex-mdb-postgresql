@@ -246,6 +246,12 @@ variable "password_min_numeric" {
   default     = 1
 }
 
+variable "password_special" {
+  description = "Whether to include special characters in the generated password"
+  type        = bool
+  default     = true
+}
+
 variable "password_min_special" {
   description = "Minimum number of special characters in generated password"
   type        = number
