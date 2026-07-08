@@ -222,6 +222,48 @@ variable "default_user_settings" {
   default     = {}
 }
 
+variable "password_length" {
+  description = "Length of the generated password"
+  type        = number
+  default     = 16
+}
+
+variable "password_special_characters" {
+  description = "String of special characters to use in generated passwords"
+  type        = string
+  default     = "-_()[]{}!%^"
+}
+
+variable "password_min_lower" {
+  description = "Minimum number of lowercase letters in generated password"
+  type        = number
+  default     = 1
+}
+
+variable "password_min_numeric" {
+  description = "Minimum number of numeric digits in generated password"
+  type        = number
+  default     = 1
+}
+
+variable "password_special" {
+  description = "Whether to include special characters in the generated password"
+  type        = bool
+  default     = true
+}
+
+variable "password_min_special" {
+  description = "Minimum number of special characters in generated password"
+  type        = number
+  default     = 1
+}
+
+variable "password_min_upper" {
+  description = "Minimum number of uppercase letters in generated password"
+  type        = number
+  default     = 1
+}
+
 variable "owners" {
   description = <<EOF
     List of special PostgreSQL DB users - database owners. These users are created first and assigned to database as owner.

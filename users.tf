@@ -1,12 +1,12 @@
 resource "random_password" "password" {
   for_each         = { for v in concat(var.owners, var.users) : v.name => v if v.password == null }
-  length           = 16
-  special          = true
-  min_lower        = 1
-  min_numeric      = 1
-  min_special      = 1
-  min_upper        = 1
-  override_special = "-_()[]{}!%^"
+  length           = var.password_length
+  special          = var.password_special
+  min_lower        = var.password_min_lower
+  min_numeric      = var.password_min_numeric
+  min_special      = var.password_special ? var.password_min_special : 0
+  min_upper        = var.password_min_upper
+  override_special = var.password_special ? var.password_special_characters : ""
 }
 
 resource "yandex_mdb_postgresql_user" "owner" {
