@@ -4,9 +4,9 @@ resource "random_password" "password" {
   special          = var.password_special
   min_lower        = var.password_min_lower
   min_numeric      = var.password_min_numeric
-  min_special      = var.password_min_special
+  min_special      = var.password_special ? var.password_min_special : 0
   min_upper        = var.password_min_upper
-  override_special = var.password_special_characters
+  override_special = var.password_special ? var.password_special_characters : ""
 }
 
 resource "yandex_mdb_postgresql_user" "owner" {
