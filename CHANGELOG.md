@@ -1,3 +1,7 @@
+## v2.39.0 - 2026-08-03
+### Chores
+- 66e5380 chore(deps): bump bridgecrewio/checkov-action from 12 to 12.3114.0 ([#69](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/69))
+
 ## v2.38.0 - 2026-07-08
 ### Features
 - 0b680df feat: Add password-policy to envs ([#68](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/68))
