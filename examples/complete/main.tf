@@ -1,9 +1,12 @@
 data "yandex_client_config" "client" {}
 
+provider "yandex" {
+}
+
 module "network" {
   source = "git::https://github.com/terraform-yacloud-modules/terraform-yandex-vpc.git?ref=v1.0.0"
 
-  folder_id = data.yandex_client_config.client.folder_id
+  folder_id = coalesce(var.folder_id, data.yandex_client_config.client.folder_id)
 
   blank_name = "vpc-nat-gateway"
   labels = {
@@ -26,7 +29,7 @@ module "postgresql_cluster" {
   environment            = "PRESTABLE"
   network_id             = module.network.vpc_id
   description            = "My PostgreSQL cluster description"
-  folder_id              = data.yandex_client_config.client.folder_id
+  folder_id              = coalesce(var.folder_id, data.yandex_client_config.client.folder_id)
   disk_encryption_key_id = null
 
   postgresql_version = "15"
