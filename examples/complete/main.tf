@@ -13,9 +13,9 @@ module "network" {
     repo = "terraform-yacloud-modules/terraform-yandex-vpc"
   }
 
-  azs = ["ru-central1-a", "ru-central1-b", "ru-central1-d"]
+  azs = ["ru-central1-d"]
 
-  private_subnets = [["10.4.0.0/24"], ["10.5.0.0/24"], ["10.6.0.0/24"]]
+  private_subnets = [["10.6.0.0/24"]]
 
   create_vpc         = true
   create_nat_gateway = true
@@ -47,25 +47,11 @@ module "postgresql_cluster" {
 
   hosts = [
     {
-      zone             = "ru-central1-a"
+      zone             = "ru-central1-d"
       subnet_id        = module.network.private_subnets_ids[0]
       assign_public_ip = true
-      name             = "host-a"
-      priority         = 1
-    },
-    {
-      zone             = "ru-central1-b"
-      subnet_id        = module.network.private_subnets_ids[1]
-      assign_public_ip = true
-      name             = "host-b"
-      priority         = 2
-    },
-    {
-      zone             = "ru-central1-d"
-      subnet_id        = module.network.private_subnets_ids[2]
-      assign_public_ip = true
       name             = "host-d"
-      priority         = 2
+      priority         = 1
     },
   ]
 
