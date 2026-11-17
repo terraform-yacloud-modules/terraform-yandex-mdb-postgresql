@@ -1,3 +1,7 @@
+## v2.54.0 - 2026-11-17
+### Chores
+- a2eb939 chore(deps): bump bridgecrewio/checkov-action ([#85](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/85))
+
 ## v2.53.0 - 2026-11-13
 ### Bug Fixes
 - bcf75c8 fix(examples): use only ru-central1-d zone in complete example ([#83](https://github.com/terraform-yacloud-modules/terraform-yandex-mdb-postgresql/pull/83))
